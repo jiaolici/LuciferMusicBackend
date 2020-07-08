@@ -5,15 +5,15 @@ from django.db import models
 # restframework 3.10.1
 # jwt 1.11.0
 # python 3.7.4
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 # 扩展User类
-class UserProfile(User):
+class UserProfile(AbstractUser):
     avatar = models.ImageField()
     introduction = models.CharField(max_length=100)
     gender = models.CharField(max_length=2,choices=(("男","男"),("女","女")))
-    birthday = models.DateField()
+    birthday = models.DateField(default="2019-1-1")
     city = models.CharField(max_length=10)
-    class Meta:
+    class Meta(AbstractUser.Meta):
         pass
