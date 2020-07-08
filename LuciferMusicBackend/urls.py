@@ -18,7 +18,7 @@ from django.urls import path,re_path,include
 from LuciferMusic.views import UserViewset
 from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken import views
-from rest_framework_jwt.views import obtain_jwt_token
+from rest_framework_jwt.views import obtain_jwt_token,refresh_jwt_token,verify_jwt_token
 
 router = DefaultRouter()
 router.register(r'user', UserViewset, base_name="user")
@@ -26,6 +26,8 @@ router.register(r'user', UserViewset, base_name="user")
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', obtain_jwt_token ),
+    path('refresh/', refresh_jwt_token ),
+    path('verify/', verify_jwt_token ),
     path('api-token-auth/', views.obtain_auth_token),
     re_path('^', include(router.urls))
 ]
