@@ -5,6 +5,7 @@ from django.db import models
 # restframework 3.10.1
 # jwt 1.11.0
 # python 3.7.4
+# django-cors-headers
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
