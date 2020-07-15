@@ -1,3 +1,4 @@
+from LuciferMusic.serializers import UserSerializer
 def jwt_response_payload_handler(token, user=None, request=None):
     """
     Returns the response data for both the login and refresh views.
@@ -15,6 +16,5 @@ def jwt_response_payload_handler(token, user=None, request=None):
     """
     return {
         'token': token,
-        'id':user.id,
-        'username':user.username
+        'user': UserSerializer(user, context={'request': request}).data
     }

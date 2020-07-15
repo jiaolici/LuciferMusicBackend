@@ -152,3 +152,7 @@ CORS_ALLOW_HEADERS = (
  'Pragma',
  'token'
 )
+
+# 设置上传文件的路径
+MEDIA_URL="/media/" #作为公用 URL，指向上传文件的基本路径
+MEDIA_ROOT=os.path.join(BASE_DIR,"media") #上传文件在服务器中的基本路径
