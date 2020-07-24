@@ -18,3 +18,38 @@ class UserProfile(AbstractUser):
     city = models.CharField(max_length=10)
     class Meta(AbstractUser.Meta):
         pass
+
+class Style(models.Model):
+    name = models.CharField(max_length=20)
+
+class Artist(models.Model):
+    name = models.CharField(max_length=100)
+    alias = models.CharField(max_length=100)
+    avatar = models.ImageField(upload_to = "artist_avatar")
+    styles = models.ManyToManyField(Style)
+    introduction = models.TextField()
+    country = models.CharField(max_length = 20)
+
+class Album(models.Model):
+    name = models.CharField(max_length=100)
+    artist = models.ForeignKey(Artist,on_delete=models.CASCADE)
+    cover = models.ImageField(upload_to="album_cover")
+    styles = models.ManyToManyField(Style)
+    company = models.CharField(max_length=20)
+    publish_date = models.DateField()
+    introduction = models.TextField()
+
+class Song(models.Model):
+    name = models.CharField(max_length=100)
+    artists = models.ManyToManyField(Artist)
+    audio = models.FileField(upload_to="audio")
+    lyric = models.TextField()
+    duration = models.PositiveIntegerField()
+    album = models.ForeignKey(Album,on_delete=models.CASCADE)
+
+class SongList(models.Model):
+    name = models.CharField(max_length=100)
+    styles = models.ManyToManyField(Style)
+    cover = models.ImageField(upload_to="songlist_cover")
+    creator = models.ForeignKey(UserProfile,on_delete=models.CASCADE)
+    created_date = models.DateField(auto_now_add = True)
