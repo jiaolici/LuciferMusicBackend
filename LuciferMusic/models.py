@@ -20,15 +20,21 @@ class UserProfile(AbstractUser):
         pass
 
 class Style(models.Model):
-    name = models.CharField(max_length=20)
+    name = models.CharField(max_length=20,unique=True)
+
+    def __str__(self):
+        return self.name
 
 class Artist(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100,unique=True)
     alias = models.CharField(max_length=100)
     avatar = models.ImageField(upload_to = "artist_avatar")
     styles = models.ManyToManyField(Style)
     introduction = models.TextField()
     country = models.CharField(max_length = 20)
+
+    def __str__(self):
+        return self.name
 
 class Album(models.Model):
     name = models.CharField(max_length=100)
@@ -39,6 +45,12 @@ class Album(models.Model):
     publish_date = models.DateField()
     introduction = models.TextField()
 
+    class Meta:
+        unique_together = ('name','artist')
+
+    def __str__(self):
+        return self.name
+
 class Song(models.Model):
     name = models.CharField(max_length=100)
     artists = models.ManyToManyField(Artist)
@@ -47,9 +59,21 @@ class Song(models.Model):
     duration = models.PositiveIntegerField()
     album = models.ForeignKey(Album,on_delete=models.CASCADE)
 
+    class Meta:
+        unique_together = ('name','album')
+
+    def __str__(self):
+        return self.name
+
 class SongList(models.Model):
     name = models.CharField(max_length=100)
     styles = models.ManyToManyField(Style)
     cover = models.ImageField(upload_to="songlist_cover")
     creator = models.ForeignKey(UserProfile,on_delete=models.CASCADE)
     created_date = models.DateField(auto_now_add = True)
+    songs = models.ManyToManyField(Song)
+    class Meta:
+        unique_together = ('name','creator')
+    
+    def __str__(self):
+        return self.name

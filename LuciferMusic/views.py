@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from .models import UserProfile
-from .serializers import UserSerializer
+from .models import UserProfile,Artist
+from .serializers import UserSerializer,ArtistSerializer
 from rest_framework import viewsets
 from rest_framework import mixins
 from rest_framework import permissions
@@ -12,3 +12,7 @@ class UserViewset(viewsets.GenericViewSet,mixins.RetrieveModelMixin,mixins.Creat
     queryset = UserProfile.objects.all()
     #authentication_classes = (JSONWebTokenAuthentication,)
     # permission_classes = (permissions.IsAuthenticatedOrReadOnly)
+
+class ArtistViewset(viewsets.GenericViewSet,mixins.RetrieveModelMixin):
+    serializer_class = ArtistSerializer
+    queryset = Artist.objects.all()
