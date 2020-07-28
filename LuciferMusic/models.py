@@ -38,7 +38,7 @@ class Artist(models.Model):
 
 class Album(models.Model):
     name = models.CharField(max_length=100)
-    artist = models.ForeignKey(Artist,on_delete=models.CASCADE)
+    artist = models.ForeignKey(Artist,on_delete=models.CASCADE,related_name="albums")
     cover = models.ImageField(upload_to="album_cover")
     styles = models.ManyToManyField(Style)
     company = models.CharField(max_length=20)
@@ -53,7 +53,7 @@ class Album(models.Model):
 
 class Song(models.Model):
     name = models.CharField(max_length=100)
-    artists = models.ManyToManyField(Artist)
+    artists = models.ManyToManyField(Artist,related_name='songs')
     audio = models.FileField(upload_to="audio")
     lyric = models.TextField()
     duration = models.PositiveIntegerField()

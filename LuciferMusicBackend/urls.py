@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,re_path,include
 from django.views.static import serve
-from LuciferMusic.views import UserViewset,ArtistViewset
+from LuciferMusic.views import UserViewset,ArtistViewset,AlbumViewset,SongViewset
 from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken import views
 from rest_framework_jwt.views import obtain_jwt_token,refresh_jwt_token,verify_jwt_token
@@ -25,6 +25,8 @@ from LuciferMusicBackend.settings import MEDIA_ROOT
 router = DefaultRouter()
 router.register(r'user', UserViewset, basename="user")
 router.register(r'artist', ArtistViewset, basename="artist")
+router.register(r'album', AlbumViewset, basename="album")
+router.register(r'song', SongViewset, basename="song")
 
 urlpatterns = [
     path('admin/', admin.site.urls),
