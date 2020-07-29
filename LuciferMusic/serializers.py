@@ -6,7 +6,19 @@ class UserSerializer(serializers.ModelSerializer):
         model = UserProfile
         fields = ['id','username','avatar','introduction','gender','birthday','city']
 
+class ArtistRoughSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Artist
+        fields = ['id','name']
+
+class AlbumRoughSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Album
+        fields = ['id','name']
+
 class SongSerializer(serializers.ModelSerializer):
+    artists = ArtistRoughSerializer(many=True,read_only=True)
+    album = AlbumRoughSerializer(read_only=True)
     class Meta:
         model = Song
         fields = "__all__"
