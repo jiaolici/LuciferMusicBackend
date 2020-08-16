@@ -57,7 +57,7 @@ class Song(models.Model):
     audio = models.FileField(upload_to="audio")
     lyric = models.TextField()
     duration = models.PositiveIntegerField()
-    album = models.ForeignKey(Album,on_delete=models.CASCADE)
+    album = models.ForeignKey(Album,on_delete=models.CASCADE,related_name="songs")
 
     class Meta:
         unique_together = ('name','album')

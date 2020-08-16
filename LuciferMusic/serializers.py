@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from LuciferMusic.models import UserProfile,Artist,Song,Album
+from LuciferMusic.models import UserProfile,Artist,Song,Album,SongList
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -12,9 +12,10 @@ class ArtistRoughSerializer(serializers.ModelSerializer):
         fields = ['id','name']
 
 class AlbumRoughSerializer(serializers.ModelSerializer):
+    styles = serializers.SlugRelatedField(many=True, read_only=True, slug_field='name')
     class Meta:
         model = Album
-        fields = ['id','name']
+        fields = ['id','name','cover','publish_date','styles']
 
 class SongSerializer(serializers.ModelSerializer):
     artists = ArtistRoughSerializer(many=True,read_only=True)
@@ -25,6 +26,8 @@ class SongSerializer(serializers.ModelSerializer):
 
 class AlbumSerializer(serializers.ModelSerializer):
     styles = serializers.SlugRelatedField(many=True, read_only=True, slug_field='name')
+    artist = ArtistRoughSerializer(read_only=True)
+    songs = SongSerializer(many=True, read_only=True)
     class Meta:
         model = Album
         fields = "__all__"
@@ -37,3 +40,10 @@ class ArtistSerializer(serializers.ModelSerializer):
         model = Artist
         fields = "__all__"
 
+class SongListSerializer(serializers.ModelSerializer):
+    styles = serializers.SlugRelatedField(many=True, read_only=True, slug_field='name')
+    songs = SongSerializer(many=True, read_only=True)
+    creator = UserSerializer(read_only=True)
+    class Meta:
+        model = SongList
+        fields = "__all__"

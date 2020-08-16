@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from .models import UserProfile,Artist,Album,Song
-from .serializers import UserSerializer,ArtistSerializer,AlbumSerializer,SongSerializer
+from .models import UserProfile,Artist,Album,Song,SongList
+from .serializers import UserSerializer,ArtistSerializer,AlbumSerializer,SongSerializer,SongListSerializer
 from rest_framework import viewsets
 from rest_framework import mixins
 from rest_framework import permissions
@@ -24,3 +24,7 @@ class AlbumViewset(viewsets.GenericViewSet,mixins.RetrieveModelMixin):
 class SongViewset(viewsets.GenericViewSet,mixins.RetrieveModelMixin):
     serializer_class = SongSerializer
     queryset = Song.objects.all()
+
+class SongListViewset(viewsets.GenericViewSet,mixins.RetrieveModelMixin):
+    serializer_class = SongListSerializer
+    queryset = SongList.objects.all()
