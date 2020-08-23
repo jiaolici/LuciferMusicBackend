@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from LuciferMusic.models import UserProfile,Artist,Song,Album,SongList
+from LuciferMusic.models import UserProfile,Artist,Song,Album,SongList,Fav
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -46,4 +46,9 @@ class SongListSerializer(serializers.ModelSerializer):
     creator = UserSerializer(read_only=True)
     class Meta:
         model = SongList
+        fields = "__all__"
+
+class FavSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Fav
         fields = "__all__"
