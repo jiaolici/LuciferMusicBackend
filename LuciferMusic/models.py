@@ -88,3 +88,24 @@ class Fav(models.Model):
 
     class Meta:
         unique_together = ('user','content_type','object_id')
+
+class Comment(models.Model):
+    user = models.ForeignKey(UserProfile,on_delete=models.CASCADE)
+    content = models.TextField(max_length=300)
+    replay_target = models.ForeignKey('self',null=True,blank=True,on_delete=models.SET_NULL)
+    pub_time = models.DateTimeField(auto_now_add=True)
+    # 评论对象
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    object_id = models.PositiveIntegerField()
+    fav_object = GenericForeignKey('content_type', 'object_id')
+
+class Praise(models.Model):
+    user = models.ForeignKey(UserProfile,on_delete=models.CASCADE)
+    click_time = models.DateTimeField(auto_now_add=True)
+    # 点赞对象
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    object_id = models.PositiveIntegerField()
+    fav_object = GenericForeignKey('content_type', 'object_id')
+
+    class Meta:
+        unique_together = ('user','content_type','object_id')

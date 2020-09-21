@@ -128,6 +128,10 @@ STATIC_URL = '/static/'
 
 AUTH_USER_MODEL = 'LuciferMusic.UserProfile'
 
+# REST_FRAMEWORK = {
+#     'DEFAULT_AUTHENTICATION_CLASSES':('rest_framework.authentication.BasicAuthentication',)
+# }
+
 # JWT
 JWT_AUTH = {
     'JWT_EXPIRATION_DELTA': datetime.timedelta(days=1),

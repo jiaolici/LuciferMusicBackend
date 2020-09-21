@@ -1,5 +1,10 @@
 from rest_framework import serializers
-from LuciferMusic.models import UserProfile,Artist,Song,Album,SongList,Fav
+from LuciferMusic.models import UserProfile,Artist,Song,Album,SongList,Fav,Comment,Praise
+
+class UserRoughSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = ['id','username','avatar']
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -51,4 +56,22 @@ class SongListSerializer(serializers.ModelSerializer):
 class FavSerializer(serializers.ModelSerializer):
     class Meta:
         model = Fav
+        fields = "__all__"
+
+class CommentRoughSerializer(serializers.ModelSerializer):
+    user = UserRoughSerializer(read_only=False)
+    class Meta:
+        model = Comment
+        fields = ['id','content','user']
+
+class CommentSerializer(serializers.ModelSerializer):
+    replay_target = CommentRoughSerializer(read_only=True)
+    user = UserRoughSerializer(read_only=True)
+    class Meta:
+        model = Comment
+        fields = "__all__"
+
+class PraiseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Praise
         fields = "__all__"
