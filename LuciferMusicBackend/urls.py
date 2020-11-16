@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,re_path,include
 from django.views.static import serve
-from LuciferMusic.views import UserViewset,ArtistViewset,AlbumViewset,SongViewset,SongListViewset,FavViewset,CommentViewset,PraiseViewset
+from LuciferMusic.views import UserViewset,ArtistViewset,AlbumViewset,SongViewset,SongListViewset,FavViewset,CommentViewset,PraiseViewset,SongListOp,ListenRecordViewset,RankViewset,IndexSongList,IndexAlbum,IndexRank
 from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken import views
 from rest_framework_jwt.views import obtain_jwt_token,refresh_jwt_token,verify_jwt_token
@@ -31,6 +31,8 @@ router.register(r'songlist', SongListViewset, basename="songlist")
 router.register(r'fav', FavViewset, basename="fav")
 router.register(r'comment', CommentViewset, basename="comment")
 router.register(r'praise', PraiseViewset, basename="praise")
+router.register(r'listenrecord', ListenRecordViewset, basename="listenrecord")
+router.register(r'rank', RankViewset, basename="rank")
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -39,5 +41,9 @@ urlpatterns = [
     path('verify/', verify_jwt_token ),
     path('api-token-auth/', views.obtain_auth_token),
     path('media/<path:path>',serve,{'document_root':MEDIA_ROOT}),
-    re_path('^', include(router.urls))
+    re_path(r'^songlistop/(?P<pk>[0-9]+)/$',SongListOp.as_view()),
+    re_path('^', include(router.urls)),
+    path('index/songlist',IndexSongList.as_view()),
+    path('index/album',IndexAlbum.as_view()),
+    path('index/rank',IndexRank.as_view()),
 ]

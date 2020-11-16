@@ -1,5 +1,7 @@
 from rest_framework import serializers
-from LuciferMusic.models import UserProfile,Artist,Song,Album,SongList,Fav,Comment,Praise
+from LuciferMusic.models import UserProfile,Artist,Song,Album,SongList,Fav,Comment,Praise,ListenRecord,Rank,RankSongs
+from rest_framework.fields import empty
+from django.db import models
 
 class UserRoughSerializer(serializers.ModelSerializer):
     class Meta:
@@ -74,4 +76,34 @@ class CommentSerializer(serializers.ModelSerializer):
 class PraiseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Praise
+        fields = "__all__"
+
+class ListenRecordSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ListenRecord
+        fields = "__all__"
+
+
+class RankSongsSerializer(serializers.ModelSerializer):
+    songs = SongSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = RankSongs
+        fields = "__all__"
+
+class RankSerializer(serializers.ModelSerializer):
+    # rank_songs = RankSongsSerializer(many=True, read_only=True)
+    rank_songs = serializers.SerializerMethodField()
+
+    # obj是一个Rank对象
+    def get_rank_songs(self, obj):
+        qs = RankSongs.objects.filter(rank__id=obj.id).order_by("-update_at")
+        if qs.count()>0:
+            # 加入_context
+            return RankSongsSerializer(qs[0],context=self._context).data
+        return {}
+
+
+    class Meta:
+        model = Rank
         fields = "__all__"
